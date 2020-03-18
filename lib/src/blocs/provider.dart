@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:medigestion/src/blocs/login_bloc.dart';
+import 'package:medigestion/src/blocs/user_bloc.dart';
 export 'login_bloc.dart';
 
 class Provider extends InheritedWidget {
   final loginBloc = new LoginBloc();
+  final userBloc = new UserBloc();
   static Provider _instancia;
 //Modelo Singleton
   factory Provider({Key key, Widget child}) {
@@ -28,5 +30,8 @@ class Provider extends InheritedWidget {
 
   static LoginBloc of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
+  }
+  static UserBloc userBlocOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>().userBloc;
   }
 }

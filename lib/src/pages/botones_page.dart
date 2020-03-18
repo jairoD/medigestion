@@ -165,7 +165,7 @@ class BotonesPage extends StatelessWidget {
         ]),
         new TableRow(children: <Widget>[
           _crearBotonRedondeado(context,Colors.pinkAccent, Icons.access_time, 'General',ChatPage.routeName),
-          _crearBotonRedondeado(context, Colors.orange, Icons.shop, 'General',ChatPage.routeName),
+          _crearBotonRedondeado(context, Colors.orange, Icons.account_circle, 'Perfil',ChatPage.routeName),
         ]),
       ],
     );

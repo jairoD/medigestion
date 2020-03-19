@@ -3,6 +3,7 @@ import 'package:medigestion/src/blocs/provider.dart';
 import 'package:medigestion/src/pages/doctorChatList_page.dart';
 import 'package:medigestion/src/pages/home_page.dart';
 import 'package:medigestion/src/pages/login_page.dart';
+import 'package:medigestion/src/pages/profileUser_page.dart';
 import 'package:medigestion/src/pages/registro_page.dart';
 
 void main() async{
@@ -19,10 +20,11 @@ class MyApp extends StatelessWidget {
       title: 'TeleMedicina',
       initialRoute: LoginPage.routeName,
       routes: {
-        LoginPage.routeName: (BuildContext context) => new LoginPage(),
-        HomePage.routeName: (BuildContext context) => new HomePage(),
-        RegistroPage.routeName: (BuildContext context) => new RegistroPage(),
+        LoginPage.routeName:      (BuildContext context) => new LoginPage(),
+        HomePage.routeName:       (BuildContext context) => new HomePage(),
+        RegistroPage.routeName:   (BuildContext context) => new RegistroPage(),
         DoctorListPage.routeName: (BuildContext context) => new DoctorListPage(),
+        ProfileUserPage.routeName:(BuildContext context) => new ProfileUserPage(),
       },
       theme: new ThemeData(primaryColor: Colors.deepPurple),
     ));

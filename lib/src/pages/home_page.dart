@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medigestion/src/blocs/provider.dart';
+import 'package:medigestion/src/blocs/user_bloc.dart';
+import 'package:medigestion/src/models/user_model.dart';
 import 'package:medigestion/src/pages/botones_page.dart';
 import 'package:medigestion/src/pages/login_page.dart';
 import 'package:medigestion/src/providers/firebaseUser_provider.dart';
@@ -12,6 +15,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     //final bloc = Provider.of(context);
     final loginBLoc = Provider.of(context);
+    final userBloc =  Provider.userBlocOf(context);
     final firebaseUserProvider = new FirebaseUserProvider();
     print('entro');
     return Scaffold(
@@ -22,17 +26,29 @@ class HomePage extends StatelessWidget {
               firebaseUserProvider.signOut();}
             ),
       ),*/
-      body: _handleCurrentView(loginBLoc,firebaseUserProvider),
+      body: _handleCurrentView(loginBLoc,firebaseUserProvider, userBloc),
      // floatingActionButton: _crearBoton(context),
     );
   }
 
-  Widget _handleCurrentView(LoginBloc loginBloc, FirebaseUserProvider firebaseUserProvider){
+  Widget _handleCurrentView(LoginBloc loginBloc, FirebaseUserProvider firebaseUserProvider, UserBloc userBloc){
     return new StreamBuilder(
       stream: loginBloc.isSignedIn,
       builder: (BuildContext context, AsyncSnapshot snapshot){
          if(snapshot.hasData){
-             firebaseUserProvider.getUser().then((user) => print('Email: ${user.email} - Id: ${user.uid}'));
+             firebaseUserProvider.getUser().then((user){
+                Firestore.instance.collection('users').document(user.uid).get().then((userDocument){
+                    userBloc.updateProfile(
+                      User.fromJson({
+                        'uid'        : userDocument.data['uid'],
+                        'email'      : userDocument.data['email'],
+                        'name'       : userDocument.data['name'],
+                        'lastName'   : userDocument.data['lastName'],
+                        'photoUrl'   : userDocument.data['photoUrl'],
+                      })
+                    );
+                });
+             });
              return new BotonesPage();
          }else{
            print('¡SALIO!');

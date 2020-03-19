@@ -84,6 +84,11 @@ Future updateDoctorListChat(String doctorID, String patientID, String patientEma
     }, merge: true);
   }
 
+//Añadir informacion adicional del usuario
+  Future<bool> updateUserProfile(Map<String,dynamic> json) async{
+      _db.collection('users').document(json['uid']).updateData(json);
+     return true;
+  }
 
   /* Stream<QuerySnapshot> get dataMessage(){
     return  _db.collection('messages').document(groupChatId).collection(groupChatId).orderBy('timestamp', descending: true).limit(20).snapshots();

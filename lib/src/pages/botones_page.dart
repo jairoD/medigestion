@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:medigestion/src/pages/chat_page.dart';
 import 'package:medigestion/src/pages/doctorChatList_page.dart';
+import 'package:medigestion/src/pages/profileDoctor_page.dart';
+import 'package:medigestion/src/pages/profileUser_page.dart';
 import 'package:medigestion/src/providers/firebaseUser_provider.dart';
 
 class BotonesPage extends StatelessWidget {
@@ -165,7 +167,7 @@ class BotonesPage extends StatelessWidget {
         ]),
         new TableRow(children: <Widget>[
           _crearBotonRedondeado(context,Colors.pinkAccent, Icons.access_time, 'General',ChatPage.routeName),
-          _crearBotonRedondeado(context, Colors.orange, Icons.account_circle, 'Perfil',ChatPage.routeName),
+          _crearBotonRedondeado(context, Colors.orange, Icons.account_circle, 'Perfil',ProfileUserPage.routeName),
         ]),
       ],
     );

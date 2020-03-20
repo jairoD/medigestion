@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:medigestion/src/blocs/user_bloc.dart';
+import 'package:medigestion/src/models/user_model.dart';
 import 'package:medigestion/src/providers/firebaseUser_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,15 +15,17 @@ class ChatPage extends StatefulWidget {
   static final String routeName = 'chat';
 
   final String peerId;
-  ChatPage({Key key, @required this.peerId}) : super(key: key);
+  final Map<String,dynamic> userMap;
+  ChatPage({Key key, @required this.peerId,@required this.userMap}) : super(key: key);
 
   @override
-  _ChatPageState createState() => _ChatPageState(peerId: peerId);
+  _ChatPageState createState() => _ChatPageState(peerId: peerId, userMap: userMap);
 }
 
 class _ChatPageState extends State<ChatPage> {
   String peerId;
-  _ChatPageState({Key key, @required this.peerId});
+  Map<String,dynamic> userMap;
+  _ChatPageState({Key key, @required this.peerId,@required this.userMap});
 
   final TextEditingController textEditingController = new TextEditingController();
   final ScrollController listScrollController = new ScrollController();
@@ -123,7 +127,7 @@ class _ChatPageState extends State<ChatPage> {
         }
       });*/
 
-    firebaseUserProvider.updateDoctorListChat(peerId,user.uid, user.email);
+    firebaseUserProvider.updateDoctorListChat(peerId,user.uid, user.email,userMap);
 
     setState(() {});
   }

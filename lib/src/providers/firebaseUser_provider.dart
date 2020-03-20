@@ -76,12 +76,9 @@ class FirebaseUserProvider {
   }
 
 //Añadir usuarios que estan chateando con un doctor
-Future updateDoctorListChat(String doctorID, String patientID, String patientEmail) async{
+Future updateDoctorListChat(String doctorID, String patientID, String patientEmail, Map<String, dynamic> json) async{
     DocumentReference ref = _db.collection('doctors').document(doctorID).collection('chattingWith').document(patientID);
-    return await ref.setData({
-      'email': patientEmail,
-      'patient' : patientID,
-    }, merge: true);
+    return await ref.setData(json);
   }
 
 //Añadir informacion adicional del usuario

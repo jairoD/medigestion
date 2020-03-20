@@ -2,7 +2,7 @@ import 'dart:convert';
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
 
-String userToJson(User data) => json.encode(data.toJson());
+Map<String, dynamic> userToJson(User data, String timestamp) => data.toJson(timestamp);
 
 class User {
     String uid;
@@ -10,6 +10,7 @@ class User {
     String name;
     String lastName;
     String photoUrl;
+    String timestamp;
 
     User({
         this.uid,
@@ -17,21 +18,25 @@ class User {
         this.name = "",
         this.lastName = "",
         this.photoUrl,
+        this.timestamp
     });
 
     factory User.fromJson(Map<String, dynamic> json) => User(
-        uid: json["uid"],
-        email: json["email"],
-        name: json["name"],
-        lastName: json["lastName"],
-        photoUrl: json["photoUrl"],
+        uid      : json["uid"],
+        email    : json["email"],
+        name     : json["name"],
+        lastName : json["lastName"],
+        photoUrl : json["photoUrl"],
+        timestamp : json["timestamp"],
+
     );
 
-    Map<String, dynamic> toJson() => {
-        "uid": uid,
-        "email": email,
-        "name": name,
-        "lastName": lastName,
-        "photoUrl": photoUrl,
+    Map<String, dynamic> toJson(String timestamp) => {
+        "uid"      : uid,
+        "email"    : email,
+        "name"     : name,
+        "lastName" : lastName,
+        "photoUrl" : photoUrl,
+        "timestamp" : timestamp,
     };
 }

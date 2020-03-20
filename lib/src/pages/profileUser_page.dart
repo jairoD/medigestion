@@ -40,7 +40,6 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
       stream: userBloc.userStream,
       builder:(BuildContext context, AsyncSnapshot<User> snapshot) {
         if(snapshot.hasData){
-          
             userModel = snapshot.data;
             print("Vista ProfileUser: ${userModel.email} - ${userModel.uid}");
           return _createProfile();
@@ -56,7 +55,6 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
 
 
   Widget _createProfile(){
-    
     return  new Scaffold(
       key: scaffoldKey,
       appBar: new AppBar(

@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:medigestion/src/blocs/provider.dart';
+import 'package:medigestion/src/blocs/user_bloc.dart';
+import 'package:medigestion/src/models/user_model.dart';
 import 'package:medigestion/src/pages/chat_page.dart';
 import 'package:medigestion/src/providers/firebaseUser_provider.dart';
 
@@ -23,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
 
   String userEmail;
-    
+  UserBloc userBloc;  
   @override
   void initState() {
     super.initState();
@@ -36,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    userBloc = Provider.userBlocOf(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -108,7 +112,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => new ChatPage(
-                                      peerId: doctorDocument.documentID,
+                                      peerId  : doctorDocument.documentID,
+                                      userMap : userToJson(userBloc.userLastValue, DateTime.now().millisecondsSinceEpoch.toString())
                                     )));
                           },
                           backgroundColor: Color.fromRGBO(35, 37, 57, 1.0),

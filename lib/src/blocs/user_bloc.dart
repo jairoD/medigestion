@@ -14,6 +14,8 @@ final _userProvider = new ProfileProvider();
   //Añadimos el usuario
   Function(User) get updateProfile => _userController.sink.add;
 
+  //Obtener el ultimo valor agregado a los streams
+  User get userLastValue => _userController.value;
 
   Future<String> subirFoto(File foto, String uid) async {
     final fotoUrl = await _userProvider.uploadFile(foto, uid);

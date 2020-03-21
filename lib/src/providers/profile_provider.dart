@@ -15,6 +15,7 @@ Future<bool> handleInfo(User user) async{
   patient['email']    = user.email;
   patient['name']     = user.name;
   patient['lastName'] = user.lastName; 
+  patient['available'] = user.available;
   firebaseUserProvider.updateUserProfile(patient);
   return true;
 }

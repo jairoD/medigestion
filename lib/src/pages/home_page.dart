@@ -36,6 +36,7 @@ class HomePage extends StatelessWidget {
       stream: loginBloc.isSignedIn,
       builder: (BuildContext context, AsyncSnapshot snapshot){
          if(snapshot.hasData){
+           print('¡ENTRO2!');
              firebaseUserProvider.getUser().then((user){
                 Firestore.instance.collection('users').document(user.uid).get().then((userDocument){
                     userBloc.updateProfile(
@@ -45,6 +46,7 @@ class HomePage extends StatelessWidget {
                         'name'       : userDocument.data['name'],
                         'lastName'   : userDocument.data['lastName'],
                         'photoUrl'   : userDocument.data['photoUrl'],
+                        'available'   : userDocument.data['available'] 
                       })
                     );
                 });

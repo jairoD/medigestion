@@ -153,13 +153,15 @@ Widget _crearApellido() {
     if (foto != null) {
       userModel.photoUrl = await userBloc.subirFoto(foto, userModel.uid);
     }
-
+    userModel.available = "1";
     userBloc.agregarUsuario(userModel);
+    //userBloc.updateProfile(userModel);
     setState(() {
       _cargando = false;
     });
     
-    mostrarSnackbar('Registro guardado');
+    //mostrarSnackbar('Registro guardado');
+    //Lo mando al HomePage cosa de que actualice enseguida el stream del User y no usar el updateProfile de la linea 158 ya que en el home lo hara
     Navigator.pushNamed(context, HomePage.routeName);
   }
 

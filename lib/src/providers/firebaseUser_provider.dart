@@ -48,6 +48,7 @@ class FirebaseUserProvider {
       'uid' : user.uid,
       'email' : user.email,
       'lastSeen' : DateTime.now(),
+      'available': "0"
     }, merge: true);
   }
 

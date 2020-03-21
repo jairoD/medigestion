@@ -8,7 +8,7 @@ import 'package:medigestion/src/blocs/validators.dart';
 
 class UserBloc{
   final _userController = new BehaviorSubject<User>();
-final _userProvider = new ProfileProvider();
+  final _userProvider = new ProfileProvider();
   //Recuperar los datos del Stream
   Stream<User> get userStream => _userController.stream;
   //Añadimos el usuario

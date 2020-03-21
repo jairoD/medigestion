@@ -11,32 +11,34 @@ class User {
     String lastName;
     String photoUrl;
     String timestamp;
+    String available;
 
     User({
         this.uid,
         this.email,
-        this.name = "",
+        this.name     = "",
         this.lastName = "",
         this.photoUrl,
-        this.timestamp
+        this.timestamp,
+        this.available
     });
 
     factory User.fromJson(Map<String, dynamic> json) => User(
-        uid      : json["uid"],
-        email    : json["email"],
-        name     : json["name"],
-        lastName : json["lastName"],
-        photoUrl : json["photoUrl"],
+        uid       : json["uid"],
+        email     : json["email"],
+        name      : json["name"],
+        lastName  : json["lastName"],
+        photoUrl  : json["photoUrl"],
         timestamp : json["timestamp"],
-
+        available  : json["available"],
     );
 
     Map<String, dynamic> toJson(String timestamp) => {
-        "uid"      : uid,
-        "email"    : email,
-        "name"     : name,
-        "lastName" : lastName,
-        "photoUrl" : photoUrl,
+        "uid"       : uid,
+        "email"     : email,
+        "name"      : name,
+        "lastName"  : lastName,
+        "photoUrl"  : photoUrl,
         "timestamp" : timestamp,
     };
 }

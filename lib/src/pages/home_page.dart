@@ -46,7 +46,9 @@ class HomePage extends StatelessWidget {
                         'name'       : userDocument.data['name'],
                         'lastName'   : userDocument.data['lastName'],
                         'photoUrl'   : userDocument.data['photoUrl'],
-                        'available'   : userDocument.data['available'] 
+                        'available'  : userDocument.data['available'],
+                        'birthday'   : userDocument.data['birthday'],
+                        'gender'     : userDocument.data['gender'],   
                       })
                     );
                 });

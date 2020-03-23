@@ -11,11 +11,13 @@ final  firebaseUserProvider = new FirebaseUserProvider();
 Map<String, dynamic> patient = new Map();
 String linkFirebase;
 Future<bool> handleInfo(User user) async{
-  patient['uid']      = user.uid;
-  patient['email']    = user.email;
-  patient['name']     = user.name;
-  patient['lastName'] = user.lastName; 
-  patient['available'] = user.available;
+  patient['uid']        = user.uid;
+  patient['email']      = user.email;
+  patient['name']       = user.name;
+  patient['lastName']   = user.lastName; 
+  patient['available']  = user.available;
+  patient['birthday']   = user.birthday;
+  patient['gender']     = user.gender;
   firebaseUserProvider.updateUserProfile(patient);
   return true;
 }

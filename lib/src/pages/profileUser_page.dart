@@ -45,17 +45,6 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     initialItem: 0
   );
   int selectitem = 0; 
-/* 
-@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    scrollController.addListener((){
-      if(selectitem == 0){
-        scrollController.selectedItem=9;
-      }
-    });
-  } */
 
   @override
   void dispose() {
@@ -64,20 +53,9 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
     scrollController.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     userBloc = Provider.userBlocOf(context);
-    /*if(userBloc.userLastValue.birthday != null){
-    _inputFieldDateController.text = userBloc.userLastValue.birthday.toDate().toIso8601String().substring(0,10);
-    }*/
-    //productosBloc = Provider.productosBlocOf(context);
-    /*final User userArgument = ModalRoute.of(context).settings.arguments;
-
-    if (userArgument != null) {
-      userModel = userArgument;
-    }*/
     return new StreamBuilder(
       stream: userBloc.userStream,
       builder:(BuildContext context, AsyncSnapshot<User> snapshot) {

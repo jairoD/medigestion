@@ -76,10 +76,20 @@ class FirebaseUserProvider {
     });
   }
 
+  //Controlar cuando el medico lea el mensaje
+   Future<bool> isRead({@required String uid, @required String doctorId}) async{
+    _db.collection('doctors')
+       .document(doctorId)
+       .collection('chattingWith')
+       .document(uid)
+       .updateData({'isRead': false});
+    return true;   
+  }
+
 //Añadir usuarios que estan chateando con un doctor
 Future updateDoctorListChat(String doctorID, String patientID, String patientEmail, Map<String, dynamic> json) async{
     DocumentReference ref = _db.collection('doctors').document(doctorID).collection('chattingWith').document(patientID);
-    return await ref.setData(json);
+    return await ref.setData(json,merge: true);
   }
 
 //Añadir informacion adicional del usuario

@@ -46,6 +46,9 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
   );
   int selectitem = 0; 
 
+  String valueName;
+  String valueLastName;
+  List<bool> isFormEditingEmpty = [false,false,false,false];
   @override
   void dispose() {
     // TODO: implement dispose
@@ -102,7 +105,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                   _crearApellido(),
                   _crearFecha(context),
                   _crearGenero(context),
-                  _crearBoton(context),
+                  _tipodeBoton(context),
                   _crearCargando()
                 ],
               )),
@@ -119,10 +122,23 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
         suffixIcon: new Icon(Icons.face),
       ),
       onSaved: (value) => userModel.name = value,
+      onChanged: (value) {
+         if(value.isEmpty){
+           setState(() {
+             isFormEditingEmpty[0] = true;
+           });
+         }else{
+           setState(() {
+             isFormEditingEmpty[0] =false;
+           });
+         }
+         print('value NAME: $value');
+      },
       validator: (value) {
         if (value.length < 3) {
           return 'Ingrese su nombre';
         } else {
+          print('Entro validator nombre: NULL');
           return null;
         }
       },
@@ -137,6 +153,19 @@ Widget _crearApellido() {
         suffixIcon: new Icon(Icons.face),
       ),
       onSaved: (value) => userModel.lastName = value,
+      onChanged: (value) {
+         value = value;
+         if(value.isEmpty){
+           setState(() {
+             isFormEditingEmpty[1] = true;
+           });
+         }else{
+           setState(() {
+             isFormEditingEmpty[1] =false;
+           });
+         }
+         print('value LastName: $value');
+      },
       validator: (value) {
         if (value.length < 3) {
           return 'Ingrese su Apellido';
@@ -157,14 +186,46 @@ Widget _crearApellido() {
       return new Container();
     }
   }
-
+  Widget _tipodeBoton(BuildContext context){
+    print('Entro onPressed');
+          //Caso en el que venga con informacion 
+          if(userBloc.userLastValue.name     != null    && 
+             userBloc.userLastValue.lastName != null    &&
+             userBloc.userLastValue.birthday != null    &&
+             userBloc.userLastValue.gender   != null  ){
+               //Caso en el que quiera cambiar informacion, con valores ya establecidos
+            if(isFormEditingEmpty.contains(true)){
+               print('ENtro 1 if');
+               return _crearBotonNoHabilitado(context); 
+            }else{return _crearBoton(context);}
+          }else{
+            //Caso en el que quiera editar sin tener informacion
+            if(_inputFieldDateController.text.isNotEmpty && _inputFieldGenderController2.text.isNotEmpty){
+              if(isFormEditingEmpty.contains(true)){
+                return _crearBotonNoHabilitado(context); 
+              }else{
+                return _crearBoton(context);
+              }
+            }else{return _crearBotonNoHabilitado(context);}
+          } 
+  }
+Widget _crearBotonNoHabilitado(BuildContext context) {
+    return new RaisedButton.icon(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        color: Theme.of(context).primaryColor,
+        textColor: Colors.white,
+        onPressed:null,
+        icon: new Icon(Icons.save),
+        label: new Text('Guardar'));
+  }
   Widget _crearBoton(BuildContext context) {
     return new RaisedButton.icon(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         color: Theme.of(context).primaryColor,
         textColor: Colors.white,
-        onPressed: (_guardando) ? null : ()=> _submit(context),
+        onPressed:(_guardando) ? null : ()=> _submit(context),
         icon: new Icon(Icons.save),
         label: new Text('Guardar'));
   }
@@ -397,6 +458,7 @@ Widget _crearApellido() {
         setState(() {
            _inputFieldDateController.text = dateTime.toIso8601String().substring(0,10);
            userBloc.updateUserBirthday(Timestamp.fromDate(DateTime.parse(_inputFieldDateController.text)));
+           
         });
       },
       onConfirm: (dateTime, List<int> index) {
@@ -430,11 +492,13 @@ Widget _crearApellido() {
                         _inputFieldGenderController2.text = "Hombre";
                         userBloc.updateUserGender(_inputFieldGenderController2.text);
                         selectitem=0;
+                        setState(() {});
                       }
                       if(selectitem == 1){
                         _inputFieldGenderController2.text = "Mujer";
                         userBloc.updateUserGender(_inputFieldGenderController2.text);
                         selectitem=0;
+                        setState(() {});
                       }
                       Navigator.of(context).pop();
                     }
@@ -449,12 +513,14 @@ Widget _crearApellido() {
                 _inputFieldGenderController2.text = "Hombre";
                 userBloc.updateUserGender(_inputFieldGenderController2.text);
                 selectitem=0;
+                setState(() {});
               }
 
               if(selectitem == 1){
                 _inputFieldGenderController2.text = "Mujer";
                 userBloc.updateUserGender(_inputFieldGenderController2.text);
                 selectitem=0;
+                setState(() {});
              }
               Navigator.of(context).pop();
             },
@@ -478,10 +544,12 @@ Widget _crearApellido() {
                     if(selectitem == 0){
                       _inputFieldGenderController2.text = "Hombre";
                       userBloc.updateUserGender(_inputFieldGenderController2.text);
+                      setState(() {});
                     }
                     if(selectitem == 1){
                       _inputFieldGenderController2.text = "Mujer";   
                       userBloc.updateUserGender(_inputFieldGenderController2.text);
+                      setState(() {});
                     }
                   },
                 ),

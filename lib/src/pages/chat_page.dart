@@ -58,7 +58,9 @@ class _ChatPageState extends State<ChatPage> {
           type: type,
           groupChatId: groupChatId,
           id: user.uid,
-          peerId: peerId);
+          peerId: peerId
+      );
+      await firebaseUserProvider.isRead(uid: user.uid,doctorId: peerId);
       // listScrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
       setState(() {});
     } else {

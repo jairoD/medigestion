@@ -8,6 +8,7 @@ import 'package:medigestion/src/blocs/user_bloc.dart';
 import 'package:medigestion/src/models/user_model.dart';
 import 'package:medigestion/src/pages/chat_page.dart';
 import 'package:medigestion/src/pages/doctorChatList_page.dart';
+import 'package:medigestion/src/pages/generalLayout.dart';
 import 'package:medigestion/src/pages/profileDoctor_page.dart';
 import 'package:medigestion/src/pages/profileUser_page.dart';
 import 'package:medigestion/src/providers/firebaseUser_provider.dart';
@@ -197,7 +198,7 @@ Widget createMainView(BuildContext context, FirebaseUserProvider firebaseUserPro
         //Los tableRow seran las filas
         new TableRow(children: <Widget>[
           _crearBotonRedondeado(context,colores[0], Icons.message, 'Chat',DoctorListPage.routeName),
-          _crearBotonRedondeado(context,colores[1], Icons.access_time, 'General',ChatPage.routeName),
+          _crearBotonRedondeado(context,colores[1], Icons.assignment, 'Diagnostico',GeneralLayout.routeName),
         ]),
         new TableRow(children: <Widget>[
           _crearBotonRedondeado(context,colores[2], Icons.access_time, 'General',ChatPage.routeName),

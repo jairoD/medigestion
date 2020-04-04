@@ -6,6 +6,10 @@ import 'package:medigestion/src/models/issue.dart';
 import 'package:medigestion/src/models/sintoma.dart';
 import 'package:http/http.dart' as http;
 import 'package:medigestion/src/pages/diagnosticosLayout.dart';
+import 'dart:math';
+
+import 'package:medigestion/src/pages/issueInfoLayout.dart';
+
 class GeneralLayout extends StatefulWidget {
   static final routeName = 'general';
   GeneralLayout({Key key}) : super(key: key);
@@ -15,20 +19,20 @@ class GeneralLayout extends StatefulWidget {
 }
 
 class _GeneralLayoutState extends State<GeneralLayout> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffF2F5F9),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(52, 54, 101, 1.0),
+        backgroundColor: Color(0xffF2F5F9),
         elevation: 0.0,
         brightness: Brightness.light,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme:
+            IconThemeData(color: Color.fromRGBO(52, 54, 101, 1.0), size: 30),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.search),
-              color: Colors.white,
+              icon: Icon(Icons.assignment),
+              color: Color.fromRGBO(52, 54, 101, 1.0),
               onPressed: () {
                 showSearch(
                   context: context,
@@ -37,9 +41,174 @@ class _GeneralLayoutState extends State<GeneralLayout> {
               })
         ],
       ),
+      body: new ListView(
+        children: <Widget>[
+          new Container(
+            height: 200,
+            alignment: Alignment.center,
+            child: new Row(
+              children: <Widget>[
+                new Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: new Text(
+                          'Diagnosticos',
+                          style: new TextStyle(
+                              fontSize: 34,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromRGBO(52, 54, 101, 1.0)),
+                        ),
+                      ),
+                      new Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: new Text(
+                          'Encuentra informacion acerca de diferentes enfermedades, realiza tu diagnostico segun los sintomas que presentes.',
+                          style: new TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                new Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: new Image.asset(
+                      'assets/img/diag.png',
+                      width: 130,
+                      height: 130,
+                    )),
+              ],
+            ),
+          ),
+          new Padding(
+            padding: EdgeInsets.only(left: 10, bottom: 10),
+            child: new Text(
+              'Explorar',
+              style: new TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(52, 54, 101, 1.0)),
+            ),
+          ),
+          new Container(
+            height: 170,
+            child: FutureBuilder(
+              future: getIssues(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+                  return new Container(
+                    height: 250,
+                    alignment: Alignment.center,
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).primaryColor),
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      "ERROR: " + snapshot.error.toString(),
+                    ),
+                  );
+                } else if (snapshot.data.length == 0) {
+                  return Center(
+                    child: Text(
+                      "Error al cargar",
+                    ),
+                  );
+                } else {
+                  return new ListView.builder(
+                    padding: EdgeInsets.only(right: 15),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return new Padding(
+                        padding: EdgeInsets.only(left: 15, top: 15, bottom: 15),
+                        child: Container(
+                            height: 100,
+                            width: 150,
+                            padding: EdgeInsets.all(10),
+                            child: new Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new Text(
+                                  snapshot.data[index].name,
+                                  maxLines: 2,
+                                  style: new TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(52, 54, 101, 1.0)),
+                                  textAlign: TextAlign.start,
+                                ),
+                                new Center(
+                                  child: RaisedButton(
+                                    shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(10.0),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  IssueInfoLayout(
+                                                    id: snapshot.data[index].id,
+                                                  )));
+                                    },
+                                    color: Color.fromRGBO(52, 54, 101, 1.0),
+                                    textColor: Colors.white,
+                                    child: Text("Ver mas",
+                                        style: TextStyle(fontSize: 14)),
+                                  ),
+                                )
+                              ],
+                            ),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white)),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
+
+  Future<List<Issue>> getIssues() async {
+    List<Issue> respuesta = [];
+    String url =
+        'https://priaid-symptom-checker-v1.p.rapidapi.com/issues?format=json&language=es-es';
+    Map<String, String> headers = {
+      "x-rapidapi-host": 'priaid-symptom-checker-v1.p.rapidapi.com',
+      "x-rapidapi-key": 'd3ee42e476msh1a9257b1255ff2fp10bac7jsnbda69fd8a290',
+    };
+    http.Response response = await http.get(url, headers: headers);
+    List<dynamic> responseJson = jsonDecode(response.body);
+    responseJson.shuffle();
+    for (var item in responseJson) {
+      respuesta.add(new Issue.fromJson(item));
+    }
+    return respuesta;
+  }
 }
+
 class Datasearch extends SearchDelegate<String> {
   static final routeName = 'general';
   List<Issue> issues = new List();
@@ -57,9 +226,7 @@ class Datasearch extends SearchDelegate<String> {
     return theme;
   }
 
-  Datasearch() {
-    
-  }
+  Datasearch() {}
 
   @override
   // TODO: implement searchFieldLabel
@@ -399,25 +566,6 @@ class Datasearch extends SearchDelegate<String> {
         }
       },
     );
-  }
-
-  Future<List<Issue>> getDiagnostico(
-      int year, List<int> symptoms, String gender) async {
-    String sintomas = symptoms.toList().toString();
-    List<Issue> respuesta = [];
-    String url =
-        'https://priaid-symptom-checker-v1.p.rapidapi.com/diagnosis?format=json&symptoms=$sintomas&gender=$gender&year_of_birth=$year&language=es-es';
-    Map<String, String> headers = {
-      "x-rapidapi-host": 'priaid-symptom-checker-v1.p.rapidapi.com',
-      "x-rapidapi-key": 'd3ee42e476msh1a9257b1255ff2fp10bac7jsnbda69fd8a290',
-    };
-    http.Response response = await http.get(url, headers: headers);
-
-    List<dynamic> responseJson = jsonDecode(response.body);
-    for (var item in responseJson) {
-      respuesta.add(new Issue.fromJson(item['Issue']));
-    }
-    return respuesta;
   }
 
   Future<List<Sintoma>> getSintomas() async {

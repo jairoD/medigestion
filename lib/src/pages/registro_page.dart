@@ -219,15 +219,19 @@ class RegistroPage extends StatelessWidget {
   }
 
   _register(LoginBloc bloc, BuildContext context) async{
-
-    final result = await firebaseUserProvider.signUp(bloc.email, bloc.password);
-    FirebaseUser user = result.user;
-    await firebaseUserProvider.updateUserData(user);
-    if (result != null) {
-      Navigator.pushReplacementNamed(context, HomePage.routeName);
-    }else{
-      Fluttertoast.showToast(msg: 'No se pudo realizar la operacion');
+    try {
+      final result = await firebaseUserProvider.signUp(bloc.email, bloc.password);
+      FirebaseUser user = result.user;
+      await firebaseUserProvider.updateUserData(user);
+      if (result != null) {
+        Navigator.pushReplacementNamed(context, HomePage.routeName);
+      }else{
+        Fluttertoast.showToast(msg: 'No se pudo realizar la operacion');
+      }  
+    } catch (e) {
+        Fluttertoast.showToast(msg: 'Usuario Existente');
     }
+    
     /* print("=========");
     print('Email: ${bloc.email}');
     print('Password ${bloc.password}');

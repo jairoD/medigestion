@@ -16,19 +16,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-        child: MaterialApp(
+      child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TeleMedicina',
       initialRoute: LoginPage.routeName,
       routes: {
-        LoginPage.routeName: (BuildContext context) => new LoginPage(),
-        HomePage.routeName: (BuildContext context) => new HomePage(),
-        RegistroPage.routeName: (BuildContext context) => new RegistroPage(),
-        DoctorListPage.routeName: (BuildContext context) =>
-            new DoctorListPage(),
-        ProfileUserPage.routeName: (BuildContext context) =>
-            new ProfileUserPage(),
-        GeneralLayout.routeName: (BuildContext context) => new GeneralLayout(),
+        LoginPage.routeName: (BuildContext context)       => new LoginPage(),
+        HomePage.routeName: (BuildContext context)        => new HomePage(),
+        RegistroPage.routeName: (BuildContext context)    => new RegistroPage(),
+        DoctorListPage.routeName: (BuildContext context)  => new DoctorListPage(),
+        ProfileUserPage.routeName: (BuildContext context) => new ProfileUserPage(),
+        GeneralLayout.routeName: (BuildContext context)   => new GeneralLayout(),
       },
       theme: ThemeData(
           primaryColor: Color.fromRGBO(52, 54, 101, 1.0),

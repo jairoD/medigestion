@@ -211,14 +211,20 @@ class LoginPage extends StatelessWidget {
   }
 
   _login(LoginBloc bloc, BuildContext context) async {
-    final user = await firebaseUserProvider.signInWithCredentials(bloc.email, bloc.password);
-    print(user);
-    if (user != null) {
-      Navigator.pushReplacementNamed(context, HomePage.routeName);
-    }else{
-      Fluttertoast.showToast(msg: 'No se pudo realizar la operacion');
-
+    try {
+      final user = await firebaseUserProvider.signInWithCredentials(bloc.email, bloc.password);
+      
+      if (user != null) {
+        Navigator.pushReplacementNamed(context, HomePage.routeName);
+      }else{
+        print('Entro Aqui');
+        Fluttertoast.showToast(msg: 'No se pudo realizar la operacion');
+      }  
+    } catch (e) {
+        print('Entro Aqui2: $e');
+        Fluttertoast.showToast(msg: 'No se pudo realizar la operacion');
     }
+    
     /* print("=========");
     print('Email: ${bloc.email}');
     print('Password ${bloc.password}');

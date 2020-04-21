@@ -186,6 +186,67 @@ class _GeneralLayoutState extends State<GeneralLayout> {
               },
             ),
           ),
+          new Container(
+            height: 200,
+            margin: EdgeInsets.only(left: 15),
+            alignment: Alignment.centerLeft,
+            child: new Stack(
+              overflow: Overflow.visible,
+              children: <Widget>[
+                new Container(
+                  height: 130,
+                  constraints: BoxConstraints(maxWidth: 270),
+                  margin: EdgeInsets.only(left: 30),
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  alignment: Alignment.centerRight,
+                  child: new Container(
+                    height: 110,
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    alignment: Alignment.centerRight,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                    ),
+                    child: new Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          new Text(
+                            'Covid-19',
+                            style: new TextStyle(
+                                color: Color.fromRGBO(52, 54, 101, 1.0),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          new RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(10.0),
+                            ),
+                            onPressed: () {},
+                            color: Color.fromRGBO(52, 54, 101, 1.0),
+                            textColor: Colors.white,
+                            child: Text("Conocer mas",
+                                style: TextStyle(fontSize: 14)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                new Container(
+                  height: 130,
+                  width: 130,
+                  decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                      image: DecorationImage(
+                          image: AssetImage('assets/img/covid.jpg'),
+                          fit: BoxFit.cover)),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

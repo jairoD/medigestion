@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:medigestion/src/models/issue.dart';
 import 'package:medigestion/src/models/sintoma.dart';
 import 'package:http/http.dart' as http;
+import 'package:medigestion/src/pages/covid_page.dart';
 import 'package:medigestion/src/pages/diagnosticosLayout.dart';
 import 'dart:math';
 
@@ -223,7 +224,12 @@ class _GeneralLayoutState extends State<GeneralLayout> {
                             shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(10.0),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Covid()));
+                            },
                             color: Color.fromRGBO(52, 54, 101, 1.0),
                             textColor: Colors.white,
                             child: Text("Conocer mas",

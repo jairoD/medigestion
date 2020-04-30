@@ -245,9 +245,9 @@ class _GeneralLayoutState extends State<GeneralLayout> {
                   width: 130,
                   decoration: new BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.red,
+                      
                       image: DecorationImage(
-                          image: AssetImage('assets/img/covid.jpg'),
+                          image: AssetImage('assets/img/coronaicon.png'),
                           fit: BoxFit.cover)),
                 ),
               ],

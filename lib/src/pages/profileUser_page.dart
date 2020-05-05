@@ -37,7 +37,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
   final String maxDateTime  = '2020-05-25';
   final String initDateTime = '2000-06-15';
   String _format = 'yyyy-MMMM-dd';
-  DateTimePickerLocale _locale = DateTimePickerLocale.es;
+ DateTimePickerLocale _locale = DateTimePickerLocale.es;
 
   TextEditingController _inputFieldDateController    = new TextEditingController();
   TextEditingController _inputFieldGenderController2 = new TextEditingController();
@@ -444,10 +444,10 @@ Widget _crearBotonNoHabilitado(BuildContext context) {
   void _showDatePicker() {
     DatePicker.showDatePicker(
       context,
-      pickerTheme: DateTimePickerTheme(
+      pickerTheme: DateTimePickerTheme( 
         showTitle: true,
-        confirm: Text('Listo', style: TextStyle(color: Colors.deepPurple)),
-      ),
+        confirm: Text('Listo', style: TextStyle(color: Color.fromRGBO(52, 54, 101, 1.0))),
+      ), 
       minDateTime: DateTime.parse(minDateTime),
       maxDateTime: DateTime.parse(maxDateTime),
       initialDateTime: DateTime.parse(initDateTime),
@@ -486,7 +486,7 @@ Widget _crearBotonNoHabilitado(BuildContext context) {
                 Container(
                   margin: EdgeInsets.only(right: 19.0),
                   child: new IconButton(
-                    icon: new Text("Listo", style: new TextStyle(color: Colors.deepPurple,fontWeight: FontWeight.w500,),) , 
+                    icon: new Text("Ok", style: new TextStyle(color: Color.fromRGBO(52, 54, 101, 1.0),fontWeight: FontWeight.w500,),) , 
                     onPressed: (){
                       if(selectitem == 0){
                         _inputFieldGenderController2.text = "Hombre";
@@ -531,10 +531,10 @@ Widget _crearBotonNoHabilitado(BuildContext context) {
                   children: <Widget>[
                     new Text(
                     "Hombre", 
-                    style:new TextStyle(color: Colors.deepPurple)),
+                    style:new TextStyle(color: Color.fromRGBO(52, 54, 101, 1.0))),
                     new Text(
                     "Mujer", 
-                    style:new TextStyle(color: Colors.deepPurple)),
+                    style:new TextStyle(color: Color.fromRGBO(52, 54, 101, 1.0))),
                   ],
                   itemExtent: 25, //height of each item
                   //looping: true,

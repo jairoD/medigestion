@@ -228,6 +228,6 @@ class LoginPage extends StatelessWidget {
     /* print("=========");
     print('Email: ${bloc.email}');
     print('Password ${bloc.password}');
-    print("========="); */
+    print("=========");*/
   }
 }

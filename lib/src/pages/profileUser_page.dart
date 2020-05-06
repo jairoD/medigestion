@@ -446,7 +446,7 @@ Widget _crearBotonNoHabilitado(BuildContext context) {
       context,
       pickerTheme: DateTimePickerTheme(
         showTitle: true,
-        confirm: Text('Listo', style: TextStyle(color: Colors.deepPurple)),
+        confirm: Text('Listo', style: TextStyle(color:Color.fromRGBO(52, 54, 101, 1.0))),
       ),
       minDateTime: DateTime.parse(minDateTime),
       maxDateTime: DateTime.parse(maxDateTime),
@@ -486,7 +486,7 @@ Widget _crearBotonNoHabilitado(BuildContext context) {
                 Container(
                   margin: EdgeInsets.only(right: 19.0),
                   child: new IconButton(
-                    icon: new Text("Listo", style: new TextStyle(color: Colors.deepPurple,fontWeight: FontWeight.w500,),) , 
+                    icon: new Text("Ok", style: new TextStyle(color: Color.fromRGBO(52, 54, 101, 1.0),fontWeight: FontWeight.w500,),) , 
                     onPressed: (){
                       if(selectitem == 0){
                         _inputFieldGenderController2.text = "Hombre";
@@ -531,10 +531,10 @@ Widget _crearBotonNoHabilitado(BuildContext context) {
                   children: <Widget>[
                     new Text(
                     "Hombre", 
-                    style:new TextStyle(color: Colors.deepPurple)),
+                    style:new TextStyle(color: Color.fromRGBO(52, 54, 101, 1.0))),
                     new Text(
                     "Mujer", 
-                    style:new TextStyle(color: Colors.deepPurple)),
+                    style:new TextStyle(color: Color.fromRGBO(52, 54, 101, 1.0))),
                   ],
                   itemExtent: 25, //height of each item
                   //looping: true,

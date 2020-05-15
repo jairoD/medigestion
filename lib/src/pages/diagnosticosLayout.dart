@@ -125,7 +125,7 @@ class DiagnosticosLayout extends StatelessWidget {
         'https://priaid-symptom-checker-v1.p.rapidapi.com/diagnosis?format=json&symptoms=$sintomas&gender=$gender&year_of_birth=$year&language=es-es';
     Map<String, String> headers = {
       "x-rapidapi-host": 'priaid-symptom-checker-v1.p.rapidapi.com',
-      "x-rapidapi-key": 'd3ee42e476msh1a9257b1255ff2fp10bac7jsnbda69fd8a290',
+      "x-rapidapi-key": '53ae8b865bmsh0fce0879e97417cp1f6ad7jsnce1daced22c7',
     };
     http.Response response = await http.get(url, headers: headers);
 

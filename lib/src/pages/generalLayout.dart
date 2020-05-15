@@ -264,7 +264,7 @@ class _GeneralLayoutState extends State<GeneralLayout> {
         'https://priaid-symptom-checker-v1.p.rapidapi.com/issues?format=json&language=es-es';
     Map<String, String> headers = {
       "x-rapidapi-host": 'priaid-symptom-checker-v1.p.rapidapi.com',
-      "x-rapidapi-key": 'd3ee42e476msh1a9257b1255ff2fp10bac7jsnbda69fd8a290',
+      "x-rapidapi-key": '53ae8b865bmsh0fce0879e97417cp1f6ad7jsnce1daced22c7',
     };
     http.Response response = await http.get(url, headers: headers);
     List<dynamic> responseJson = jsonDecode(response.body);
@@ -642,7 +642,7 @@ class Datasearch extends SearchDelegate<String> {
     var params = {'format': 'json', 'language': 'es-es'};
     Map<String, String> headers = {
       "x-rapidapi-host": 'priaid-symptom-checker-v1.p.rapidapi.com',
-      "x-rapidapi-key": 'c0a81f9229msh777a7f784c73ec2p17a016jsnef261f701754',
+      "x-rapidapi-key": '53ae8b865bmsh0fce0879e97417cp1f6ad7jsnce1daced22c7',
     };
     http.Response response = await http.get(url, headers: headers);
     var data = jsonDecode(response.body);

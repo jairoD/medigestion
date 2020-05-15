@@ -258,7 +258,9 @@ class _CovidState extends State<Covid> {
           ),
           new Padding(
             padding: EdgeInsets.all(4),
-            child: new Row(
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text(
                   'Ciudad/Departamento: ',
@@ -269,7 +271,7 @@ class _CovidState extends State<Covid> {
                   ),
                 ),
                 Container(
-                  width: 150,
+                  width: MediaQuery.of(context).size.width * 0.6,
                   child: new DropdownButton(
                     isExpanded: true,
                     hint: new Text(
@@ -341,15 +343,6 @@ class _CovidState extends State<Covid> {
         .length;
     return new Column(
       children: <Widget>[
-        new Container(
-          constraints: BoxConstraints(maxHeight: 270),
-          height: MediaQuery.of(context).size.width * 0.7,
-          child: SimplePieChart(_createSampleData(m, f)),
-          //child: SimplePieChart(
-          //  _createSampleData(),
-          //  animate: false,
-          //),
-        ),
         new Padding(
           padding: EdgeInsets.all(4),
           child: new Text(
@@ -362,6 +355,17 @@ class _CovidState extends State<Covid> {
             ),
           ),
         ),
+        (m + f == 0)
+            ? new Text('')
+            : new Container(
+                constraints: BoxConstraints(maxHeight: 270),
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: SimplePieChart(_createSampleData(m, f)),
+                //child: SimplePieChart(
+                //  _createSampleData(),
+                //  animate: false,
+                //),
+              ),
       ],
     );
   }
@@ -381,15 +385,6 @@ class _CovidState extends State<Covid> {
         .length;
     return new Column(
       children: <Widget>[
-        new Container(
-          constraints: BoxConstraints(maxHeight: 270),
-          height: MediaQuery.of(context).size.width * 0.7,
-          child: SimplePieChart(_createSampleData(m, f)),
-          //child: SimplePieChart(
-          //  _createSampleData(),
-          //  animate: false,
-          //),
-        ),
         new Padding(
           padding: EdgeInsets.all(4),
           child: new Text(
@@ -402,6 +397,17 @@ class _CovidState extends State<Covid> {
             ),
           ),
         ),
+        (m + f) == 0
+            ? new Text('')
+            : new Container(
+                constraints: BoxConstraints(maxHeight: 270),
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: SimplePieChart(_createSampleData(m, f)),
+                //child: SimplePieChart(
+                //  _createSampleData(),
+                //  animate: false,
+                //),
+              ),
       ],
     );
   }
@@ -421,15 +427,6 @@ class _CovidState extends State<Covid> {
         .length;
     return new Column(
       children: <Widget>[
-        new Container(
-          constraints: BoxConstraints(maxHeight: 270),
-          height: MediaQuery.of(context).size.width * 0.7,
-          child: SimplePieChart(_createSampleData(m, f)),
-          //child: SimplePieChart(
-          //  _createSampleData(),
-          //  animate: false,
-          //),
-        ),
         new Padding(
           padding: EdgeInsets.all(4),
           child: new Text(
@@ -442,6 +439,17 @@ class _CovidState extends State<Covid> {
             ),
           ),
         ),
+        (m + f == 0)
+            ? new Text('')
+            : new Container(
+                constraints: BoxConstraints(maxHeight: 270),
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: SimplePieChart(_createSampleData(m, f)),
+                //child: SimplePieChart(
+                //  _createSampleData(),
+                //  animate: false,
+                //),
+              ),
       ],
     );
   }

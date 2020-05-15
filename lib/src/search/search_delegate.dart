@@ -4,6 +4,17 @@ import 'package:medigestion/src/pages/chat_page.dart';
 import 'package:medigestion/src/pages/profileDoctor_page.dart';
 
 class DataSearch extends SearchDelegate {
+
+  
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    assert(context != null);
+    final ThemeData theme = Theme.of(context);
+    assert(theme != null);
+    return theme;
+  }
+
+
   String seleccion = '';
   @override
   List<Widget> buildActions(BuildContext context) {

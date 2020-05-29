@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medigestion/src/blocs/provider.dart';
 import 'package:medigestion/src/blocs/user_bloc.dart';
 import 'package:medigestion/src/models/user_model.dart';
+import 'package:medigestion/src/pages/calendar_page.dart';
 import 'package:medigestion/src/pages/chat_page.dart';
 import 'package:medigestion/src/pages/doctorChatList_page.dart';
 import 'package:medigestion/src/pages/generalLayout.dart';
@@ -21,55 +22,54 @@ class BotonesPage extends StatefulWidget {
 }
 
 class _BotonesPageState extends State<BotonesPage> {
-
   UserBloc userBloc;
-   List<Color> colorDisabledList =[
-        Colors.grey,
-        Colors.grey,
-        Colors.grey,
-        Colors.orange
+  List<Color> colorDisabledList = [
+    Colors.grey,
+    Colors.grey,
+    Colors.grey,
+    Colors.orange
   ];
 
-   List<Color> colorAvailableList =[
-      Colors.blue,
-      Colors.purpleAccent, 
-      Colors.pinkAccent,
-      Colors.orange
+  List<Color> colorAvailableList = [
+    Colors.blue,
+    Colors.purpleAccent,
+    Colors.pinkAccent,
+    Colors.orange
   ];
 
   @override
   Widget build(BuildContext context) {
-   userBloc = Provider.userBlocOf(context);
+    userBloc = Provider.userBlocOf(context);
     final firebaseUserProvider = new FirebaseUserProvider();
-    
+
     return new StreamBuilder(
       stream: userBloc.userStream,
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting){
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return new Center(
-            child: new CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(
+            child: new CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
                     Theme.of(context).primaryColor)),
           );
         }
-        if(snapshot.hasData){
-          if(snapshot.data.available == "1"){
-            return createMainView(context, firebaseUserProvider,colorAvailableList);
-          }else{
-            return createMainView(context, firebaseUserProvider,colorDisabledList);
+        if (snapshot.hasData) {
+          if (snapshot.data.available == "1") {
+            return createMainView(
+                context, firebaseUserProvider, colorAvailableList);
+          } else {
+            return createMainView(
+                context, firebaseUserProvider, colorDisabledList);
           }
-        }else{
+        } else {
           return new Container();
         }
       },
-      
     );
-
-
   }
 
-Widget createMainView(BuildContext context, FirebaseUserProvider firebaseUserProvider, List<Color> colores) {
-  
-  return new Scaffold(
+  Widget createMainView(BuildContext context,
+      FirebaseUserProvider firebaseUserProvider, List<Color> colores) {
+    return new Scaffold(
         body: new Stack(
           children: <Widget>[
             _fondoApp(),
@@ -77,19 +77,20 @@ Widget createMainView(BuildContext context, FirebaseUserProvider firebaseUserPro
               child: new Column(
                 children: <Widget>[
                   _titulos(),
-                  _botonesRedondeados(context,colores),
+                  _botonesRedondeados(context, colores),
                 ],
               ),
             )
           ],
         ),
         bottomNavigationBar: _bottomNavigationBar(context),
-        floatingActionButton:  new FloatingActionButton(
-        child: new Icon(Icons.exit_to_app),
-        backgroundColor: Colors.pinkAccent,
-        onPressed:(){firebaseUserProvider.signOut();},
-        )
-    );
+        floatingActionButton: new FloatingActionButton(
+          child: new Icon(Icons.exit_to_app),
+          backgroundColor: Colors.pinkAccent,
+          onPressed: () {
+            firebaseUserProvider.signOut();
+          },
+        ));
   }
 
   Widget _fondoApp() {
@@ -197,19 +198,24 @@ Widget createMainView(BuildContext context, FirebaseUserProvider firebaseUserPro
       children: <TableRow>[
         //Los tableRow seran las filas
         new TableRow(children: <Widget>[
-          _crearBotonRedondeado(context,colores[0], Icons.message, 'Chat',DoctorListPage.routeName),
-          _crearBotonRedondeado(context,colores[1], Icons.assignment, 'Diagnostico',GeneralLayout.routeName),
+          _crearBotonRedondeado(context, colores[0], Icons.message, 'Chat',
+              DoctorListPage.routeName),
+          _crearBotonRedondeado(context, colores[1], Icons.assignment,
+              'Diagnostico', GeneralLayout.routeName),
         ]),
         new TableRow(children: <Widget>[
-          _crearBotonRedondeado(context,colores[2], Icons.access_time, 'General',ChatPage.routeName),
-          _crearBotonRedondeado(context,colores[3], Icons.account_circle, 'Perfil',ProfileUserPage.routeName),
+          _crearBotonRedondeado(context, colores[2], Icons.access_time,
+              'Gestion de citas', CalendarPage.routeName),
+          _crearBotonRedondeado(context, colores[3], Icons.account_circle,
+              'Perfil', ProfileUserPage.routeName),
         ]),
       ],
     );
   }
 
-  Widget _crearBotonRedondeado(BuildContext context, Color color, IconData icono, String texto, String ruta) {
-    final botonRendondeado =  new ClipRect(
+  Widget _crearBotonRedondeado(BuildContext context, Color color,
+      IconData icono, String texto, String ruta) {
+    final botonRendondeado = new ClipRect(
       child: new BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
         child: new Container(
@@ -245,23 +251,28 @@ Widget createMainView(BuildContext context, FirebaseUserProvider firebaseUserPro
         ),
       ),
     );
-    if(texto == "Perfil"){
+    if (texto == "Perfil") {
       return new GestureDetector(
-        child: botonRendondeado,
-         onTap: ()=>Navigator.pushNamed(context, ruta,)
-      );
-    }else{
-    return new GestureDetector(
-      child: botonRendondeado,
-      onTap: (userBloc.userLastValue.available=="1")?(){
-          setState(() {
-            Navigator.pushNamed(context, ruta,);
-          });        
-        
-        }:(){
-        Fluttertoast.showToast(msg: "Ingresa datos de perfil" );
-      }
-    );
+          child: botonRendondeado,
+          onTap: () => Navigator.pushNamed(
+                context,
+                ruta,
+              ));
+    } else {
+      return new GestureDetector(
+          child: botonRendondeado,
+          onTap: (userBloc.userLastValue.available == "1")
+              ? () {
+                  setState(() {
+                    Navigator.pushNamed(
+                      context,
+                      ruta,
+                    );
+                  });
+                }
+              : () {
+                  Fluttertoast.showToast(msg: "Ingresa datos de perfil");
+                });
     }
   }
 }

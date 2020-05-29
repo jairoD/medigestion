@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medigestion/src/blocs/provider.dart';
+import 'package:medigestion/src/pages/calendar_page.dart';
+import 'package:medigestion/src/pages/citaForm_page.dart';
 import 'package:medigestion/src/pages/covid_page.dart';
 import 'package:medigestion/src/pages/doctorChatList_page.dart';
 import 'package:medigestion/src/pages/generalLayout.dart';
@@ -7,9 +9,10 @@ import 'package:medigestion/src/pages/home_page.dart';
 import 'package:medigestion/src/pages/login_page.dart';
 import 'package:medigestion/src/pages/profileUser_page.dart';
 import 'package:medigestion/src/pages/registro_page.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,7 +31,9 @@ class MyApp extends StatelessWidget {
         DoctorListPage.routeName: (BuildContext context)  => new DoctorListPage(),
         ProfileUserPage.routeName: (BuildContext context) => new ProfileUserPage(),
         GeneralLayout.routeName: (BuildContext context)   => new GeneralLayout(),
-        Covid.routeName: (BuildContext context) => new Covid()
+        Covid.routeName: (BuildContext context) => new Covid(),
+        CalendarPage.routeName: (BuildContext context) => new CalendarPage(),
+        CitaForm.routeName: (BuildContext context) => new CitaForm()
       },
       theme: ThemeData(
           primaryColor: Color.fromRGBO(52, 54, 101, 1.0),

@@ -1,25 +1,29 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:medigestion/src/blocs/provider.dart';
 import 'package:medigestion/src/blocs/user_bloc.dart';
 import 'package:medigestion/src/models/user_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CitaForm extends StatefulWidget {
   static final String routeName = 'citasForm';
   final int horario;
-  CitaForm({Key key, this.horario}) : super(key: key);
+  final DocumentSnapshot medico;
+  final DateTime dia;
+  CitaForm({Key key, this.horario, this.medico, this.dia}) : super(key: key);
 
   @override
   _CitaFormState createState() => _CitaFormState();
 }
 
 class _CitaFormState extends State<CitaForm> {
-  
   //ProductosBloc productosBloc;
   User userModel;
   //final productoProvider = new ProductoProvider();
   UserBloc userBloc;
+  bool enabled = true;
   @override
   Widget build(BuildContext context) {
     userBloc = Provider.userBlocOf(context);
@@ -41,23 +45,47 @@ class _CitaFormState extends State<CitaForm> {
                         textAlign: TextAlign.center,
                         style: new TextStyle(
                             color: Theme.of(context).primaryColor,
-                            fontSize: 20,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold)),
                   ),
                   new Padding(padding: EdgeInsets.all(10)),
-                  new Text('Paciente: ${userModel.name}  ${userModel.lastName}',
+                  new Text('Paciente: ${userModel.name} ${userModel.lastName}',
                       style: new TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                   new Padding(padding: EdgeInsets.all(10)),
-                  new Text('Horario de la cita: ${widget.horario}',
+                  new Text('Correo: ${userModel.email}',
                       style: new TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                   new Padding(padding: EdgeInsets.all(10)),
-                  new Text('Doctor: ', style: new TextStyle(
+                  new Text(
+                      widget.horario >= 12
+                          ? 'Hora de la cita: ${widget.horario} p. m.'
+                          : 'Hora de la cita: ${widget.horario} a. m.',
+                      style: new TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                  new Padding(padding: EdgeInsets.all(10)),
+                  new Text(
+                      'Dia de la cita: ${(widget.dia.day)}-${(widget.dia.month)}-${(widget.dia.year)}',
+                      style: new TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                  new Padding(padding: EdgeInsets.all(10)),
+                  new Text(
+                      'Medico: ${widget.medico['name']} ${widget.medico['lastName']}',
+                      style: new TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                  new Padding(padding: EdgeInsets.all(10)),
+                  new Text('Especialidad: ${widget.medico['about']}',
+                      style: new TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
@@ -65,11 +93,46 @@ class _CitaFormState extends State<CitaForm> {
                   new Center(
                     child: new FlatButton(
                         color: Theme.of(context).primaryColor,
-                        onPressed: () {},
-                        child: new Text(
-                          'Agendar Cita',
-                          style: new TextStyle(color: Colors.white),
-                        )),
+                        onPressed: enabled == true
+                            ? () {
+                                setState(() {
+                                  enabled = false;
+                                });
+                                Firestore.instance.collection('citas').add({
+                                  'pacienteUid': '${userModel.uid}',
+                                  'pacientefullName':
+                                      '${userModel.name} ${userModel.lastName}',
+                                  'correoPaciente': '${userModel.email}',
+                                  'hora': '${widget.horario}',
+                                  'medicoUID': '${widget.medico['uid']}',
+                                  'medicofullName':
+                                      '${widget.medico['name']} ${widget.medico['lastName']}',
+                                  'medicoEspecialidad':
+                                      '${widget.medico['about']}',
+                                  'dia': widget.dia
+                                }).then((value) {
+                                  setState(() {
+                                    enabled = true;
+                                  });
+                                  Fluttertoast.showToast(
+                                      msg: 'Cita agendada correctamente');
+                                  print('Documento agregado');
+                                  Navigator.pop(context);
+                                }).catchError((e) {
+                                  Fluttertoast.showToast(
+                                      msg: 'Error al agendar cita.');
+                                  setState(() {
+                                    enabled = true;
+                                  });
+                                });
+                              }
+                            : null,
+                        child: enabled == true
+                            ? new Text(
+                                'Agendar Cita',
+                                style: new TextStyle(color: Colors.white),
+                              )
+                            : CircularProgressIndicator()),
                   )
                 ],
               ),

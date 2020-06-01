@@ -6,29 +6,29 @@ import 'package:medigestion/src/blocs/provider.dart';
 import 'package:medigestion/src/blocs/user_bloc.dart';
 import 'package:medigestion/src/models/user_model.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:medigestion/src/providers/firebaseUser_provider.dart';
 
-class CitaForm extends StatefulWidget {
-  static final String routeName = 'citasForm';
-  final int horario;
-  final DocumentSnapshot medico;
-  final String dia;
-  CitaForm({Key key, this.horario, this.medico, this.dia}) : super(key: key);
+class MyCitaForm extends StatefulWidget {
+  final DocumentSnapshot info;
+  MyCitaForm({Key key, this.info}) : super(key: key);
 
   @override
-  _CitaFormState createState() => _CitaFormState();
+  _MyCitaFormState createState() => _MyCitaFormState();
 }
 
-class _CitaFormState extends State<CitaForm> {
+class _MyCitaFormState extends State<MyCitaForm> {
   DateTime aux;
   //ProductosBloc productosBloc;
   User userModel;
   //final productoProvider = new ProductoProvider();
   UserBloc userBloc;
   bool enabled = true;
+
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    aux = DateTime.parse(widget.dia);
+    aux = DateTime.parse(widget.info['dia']);
   }
 
   @override
@@ -69,9 +69,9 @@ class _CitaFormState extends State<CitaForm> {
                           fontWeight: FontWeight.bold)),
                   new Padding(padding: EdgeInsets.all(10)),
                   new Text(
-                      widget.horario >= 12
-                          ? 'Hora de la cita: ${widget.horario} p. m.'
-                          : 'Hora de la cita: ${widget.horario} a. m.',
+                      int.parse(widget.info['hora']) >= 12
+                          ? 'Hora de la cita: ${widget.info['hora']} p. m.'
+                          : 'Hora de la cita: ${widget.info['hora']} a. m.',
                       style: new TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 18,
@@ -84,14 +84,13 @@ class _CitaFormState extends State<CitaForm> {
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                   new Padding(padding: EdgeInsets.all(10)),
-                  new Text(
-                      'Medico: ${widget.medico['name']} ${widget.medico['lastName']}',
+                  new Text('Medico: ${widget.info['medicofullName']}',
                       style: new TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 18,
                           fontWeight: FontWeight.bold)),
                   new Padding(padding: EdgeInsets.all(10)),
-                  new Text('Especialidad: ${widget.medico['about']}',
+                  new Text('Especialidad: ${widget.info['medicoEspecialidad']}',
                       style: new TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 18,
@@ -105,29 +104,19 @@ class _CitaFormState extends State<CitaForm> {
                                 setState(() {
                                   enabled = false;
                                 });
-                                Firestore.instance.collection('citas').add({
-                                  'pacienteUid': '${userModel.uid}',
-                                  'pacientefullName':
-                                      '${userModel.name} ${userModel.lastName}',
-                                  'correoPaciente': '${userModel.email}',
-                                  'hora': '${widget.horario}',
-                                  'medicoUID': '${widget.medico['uid']}',
-                                  'medicofullName':
-                                      '${widget.medico['name']} ${widget.medico['lastName']}',
-                                  'medicoEspecialidad':
-                                      '${widget.medico['about']}',
-                                  'dia': widget.dia
-                                }).then((value) {
+                                Firestore.instance
+                                    .collection('citas')
+                                    .document(widget.info.documentID)
+                                    .delete()
+                                    .then((value) {
                                   setState(() {
                                     enabled = true;
                                   });
-                                  Fluttertoast.showToast(
-                                      msg: 'Cita agendada correctamente');
-                                  print('Documento agregado');
+                                  Fluttertoast.showToast(msg: 'Cita cancelada');
                                   Navigator.pop(context);
                                 }).catchError((e) {
                                   Fluttertoast.showToast(
-                                      msg: 'Error al agendar cita.');
+                                      msg: 'Error al cancelar cita.');
                                   setState(() {
                                     enabled = true;
                                   });
@@ -136,7 +125,7 @@ class _CitaFormState extends State<CitaForm> {
                             : null,
                         child: enabled == true
                             ? new Text(
-                                'Agendar Cita',
+                                'Cancelar Cita',
                                 style: new TextStyle(color: Colors.white),
                               )
                             : CircularProgressIndicator()),

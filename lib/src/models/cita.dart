@@ -8,7 +8,7 @@ class Cita {
   String medicoUid;
   String medicofullName;
   String medicoEspecialidad;
-  Timestamp dia;
+  String dia;
 
   Cita(
       String pacienteUid,
@@ -18,7 +18,7 @@ class Cita {
       String medicoUid,
       String medicofullName,
       String medicoEspecialidad,
-      Timestamp dia) {
+      String dia) {
     this.pacienteUid = pacienteUid;
     this.pacientefullName = pacientefullName;
     this.correoPaciente = correoPaciente;

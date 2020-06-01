@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:medigestion/src/blocs/provider.dart';
@@ -10,6 +11,7 @@ import 'package:medigestion/src/pages/calendar_page.dart';
 import 'package:medigestion/src/pages/chat_page.dart';
 import 'package:medigestion/src/pages/doctorChatList_page.dart';
 import 'package:medigestion/src/pages/generalLayout.dart';
+import 'package:medigestion/src/pages/myCalendar_page.dart';
 import 'package:medigestion/src/pages/profileDoctor_page.dart';
 import 'package:medigestion/src/pages/profileUser_page.dart';
 import 'package:medigestion/src/providers/firebaseUser_provider.dart';
@@ -23,6 +25,7 @@ class BotonesPage extends StatefulWidget {
 
 class _BotonesPageState extends State<BotonesPage> {
   UserBloc userBloc;
+  FirebaseUser myUser;
   List<Color> colorDisabledList = [
     Colors.grey,
     Colors.grey,
@@ -36,6 +39,16 @@ class _BotonesPageState extends State<BotonesPage> {
     Colors.pinkAccent,
     Colors.orange
   ];
+  int _selectedIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    FirebaseUserProvider().getUser().then((value) {
+      setState(() {
+        myUser = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,18 +83,24 @@ class _BotonesPageState extends State<BotonesPage> {
   Widget createMainView(BuildContext context,
       FirebaseUserProvider firebaseUserProvider, List<Color> colores) {
     return new Scaffold(
-        body: new Stack(
-          children: <Widget>[
-            _fondoApp(),
-            new SingleChildScrollView(
-              child: new Column(
-                children: <Widget>[
-                  _titulos(),
-                  _botonesRedondeados(context, colores),
-                ],
-              ),
-            )
-          ],
+        body: new Center(
+          child: _selectedIndex == 0
+              ? new Stack(
+                  children: <Widget>[
+                    _fondoApp(),
+                    new SingleChildScrollView(
+                      child: new Column(
+                        children: <Widget>[
+                          _titulos(),
+                          _botonesRedondeados(context, colores),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              : _selectedIndex == 1
+                  ? new MyCalendar(user: myUser,)
+                  : new Text('mi historial'),
         ),
         bottomNavigationBar: _bottomNavigationBar(context),
         floatingActionButton: new FloatingActionButton(
@@ -128,6 +147,18 @@ class _BotonesPageState extends State<BotonesPage> {
     );
   }
 
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+    ),
+    Text(
+      'Index 1: Business',
+    ),
+    Text(
+      'Index 2: School',
+    ),
+  ];
+
   Widget _titulos() {
     //firebaseUserProvider.getUser().then((value) => print('email botones: ${value.email}'));
     return new SafeArea(
@@ -159,6 +190,12 @@ class _BotonesPageState extends State<BotonesPage> {
     );
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   Widget _bottomNavigationBar(BuildContext context) {
     return new Theme(
       data: Theme.of(context).copyWith(
@@ -168,6 +205,8 @@ class _BotonesPageState extends State<BotonesPage> {
               caption:
                   new TextStyle(color: Color.fromRGBO(116, 117, 152, 1.0)))),
       child: new BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
           fixedColor: Colors.pink,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(

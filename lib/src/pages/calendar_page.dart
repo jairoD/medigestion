@@ -23,8 +23,9 @@ class _CalendarPageState extends State<CalendarPage> {
   //final productoProvider = new ProductoProvider();
   UserBloc userBloc;
   //dia actual
-  DateTime currentDate = new DateTime(new DateTime.now().year,
-      new DateTime.now().month, new DateTime.now().day, 12, 12, 12, 12, 12);
+  String currentDate = new DateTime(new DateTime.now().year,
+          new DateTime.now().month, new DateTime.now().day, 12, 12, 12, 12, 12)
+      .toString();
   //key global
   GlobalKey myKey = GlobalKey();
   //documento medico seleccionado
@@ -33,8 +34,8 @@ class _CalendarPageState extends State<CalendarPage> {
   String medicoUid;
   String namae = '';
   //dia seleccionado de calendario
-  DateTime dia = new DateTime(new DateTime.now().year, new DateTime.now().month,
-      new DateTime.now().day, 12, 12, 12, 12, 12);
+  String dia = new DateTime(new DateTime.now().year, new DateTime.now().month,
+      new DateTime.now().day, 12, 12, 12, 12, 12).toString();
   //keys de tiles en horario
   List<GlobalKey> keys = [
     new GlobalKey(),
@@ -78,7 +79,6 @@ class _CalendarPageState extends State<CalendarPage> {
   List<DocumentSnapshot> citasActuales;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) => getSizeAndPosition());
     super.initState();
     Firestore.instance.collection('doctors').getDocuments().then((value) {
       medicoUid = value.documents[0].data['uid'];
@@ -105,24 +105,9 @@ class _CalendarPageState extends State<CalendarPage> {
     super.dispose();
   }
 
-  getSizeAndPosition() {
-    RenderBox box = myKey.currentContext.findRenderObject();
-    position = box.localToGlobal(Offset.zero);
-
-    for (var i = 0; i < horario.length; i++) {
-      GlobalKey example = keys[1];
-      RenderBox box = example.currentContext.findRenderObject();
-      position = box.localToGlobal(Offset.zero);
-      setState(() {
-        dy.add(position.dy);
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        key: myKey,
         appBar: new AppBar(),
         body: new CustomScrollView(
           slivers: <Widget>[
@@ -136,9 +121,10 @@ class _CalendarPageState extends State<CalendarPage> {
                 onDaySelected: (DateTime day, List events) {
                   setState(() {
                     dia = new DateTime(
-                        day.year, day.month, day.day, 12, 12, 12, 12, 12);
+                        day.year, day.month, day.day, 12, 12, 12, 12, 12).toString();
                   });
                   getAllCitas(dia);
+                  print(new DateTime(day.year, day.month, day.day));
                   //print('Dia actual: ${currentDate}');
                   //print('Dia seleccionado: ${dia}');
                 },
@@ -221,7 +207,6 @@ class _CalendarPageState extends State<CalendarPage> {
               return new Column(
                 children: <Widget>[
                   ListTile(
-                    key: keys[index],
                     enabled: true,
                     leading: int.parse(horario[index]) < 10
                         ? new Text(
@@ -310,7 +295,9 @@ class _CalendarPageState extends State<CalendarPage> {
     return false;
   }
 
-  getAllCitas(DateTime filt) {
+  getAllCitas(String filt) {
+    print(medicoUid);
+    print(filt);
     Firestore.instance
         .collection('citas')
         .where('dia', isEqualTo: filt)
@@ -321,6 +308,8 @@ class _CalendarPageState extends State<CalendarPage> {
       setState(() {
         citasActuales = value.documents;
       });
+    }).catchError((e) {
+      print(e);
     });
   }
 

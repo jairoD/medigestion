@@ -105,13 +105,19 @@ class _CitaFormState extends State<CitaForm> {
                                 setState(() {
                                   enabled = false;
                                 });
+                                print(widget.dia);
+                                print(widget.horario);
                                 Firestore.instance
                                     .collection('citas')
                                     .where('dia', isEqualTo: widget.dia)
-                                    .where('hora', isEqualTo: widget.horario)
+                                    .where('hora',
+                                        isEqualTo: widget.horario.toString())
                                     .getDocuments()
                                     .then((value) {
-                                  if (value.documents.length == 0) {
+                                  if (value.documents.length != 0) {
+                                    setState(() {
+                                      enabled = true;
+                                    });
                                     Fluttertoast.showToast(
                                         msg: 'Fecha no disponible');
                                     Navigator.pop(context);

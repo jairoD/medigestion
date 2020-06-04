@@ -105,32 +105,51 @@ class _CitaFormState extends State<CitaForm> {
                                 setState(() {
                                   enabled = false;
                                 });
-                                Firestore.instance.collection('citas').add({
-                                  'pacienteUid': '${userModel.uid}',
-                                  'pacientefullName':
-                                      '${userModel.name} ${userModel.lastName}',
-                                  'correoPaciente': '${userModel.email}',
-                                  'hora': '${widget.horario}',
-                                  'medicoUID': '${widget.medico['uid']}',
-                                  'medicofullName':
-                                      '${widget.medico['name']} ${widget.medico['lastName']}',
-                                  'medicoEspecialidad':
-                                      '${widget.medico['about']}',
-                                  'dia': widget.dia
-                                }).then((value) {
-                                  setState(() {
-                                    enabled = true;
-                                  });
-                                  Fluttertoast.showToast(
-                                      msg: 'Cita agendada correctamente');
-                                  print('Documento agregado');
-                                  Navigator.pop(context);
-                                }).catchError((e) {
-                                  Fluttertoast.showToast(
-                                      msg: 'Error al agendar cita.');
-                                  setState(() {
-                                    enabled = true;
-                                  });
+                                print(widget.dia);
+                                print(widget.horario);
+                                Firestore.instance
+                                    .collection('citas')
+                                    .where('dia', isEqualTo: widget.dia)
+                                    .where('hora',
+                                        isEqualTo: widget.horario.toString())
+                                    .getDocuments()
+                                    .then((value) {
+                                  if (value.documents.length != 0) {
+                                    setState(() {
+                                      enabled = true;
+                                    });
+                                    Fluttertoast.showToast(
+                                        msg: 'Fecha no disponible');
+                                    Navigator.pop(context);
+                                  } else {
+                                    Firestore.instance.collection('citas').add({
+                                      'pacienteUid': '${userModel.uid}',
+                                      'pacientefullName':
+                                          '${userModel.name} ${userModel.lastName}',
+                                      'correoPaciente': '${userModel.email}',
+                                      'hora': '${widget.horario}',
+                                      'medicoUID': '${widget.medico['uid']}',
+                                      'medicofullName':
+                                          '${widget.medico['name']} ${widget.medico['lastName']}',
+                                      'medicoEspecialidad':
+                                          '${widget.medico['about']}',
+                                      'dia': widget.dia
+                                    }).then((value) {
+                                      setState(() {
+                                        enabled = true;
+                                      });
+                                      Fluttertoast.showToast(
+                                          msg: 'Cita agendada correctamente');
+                                      print('Documento agregado');
+                                      Navigator.pop(context);
+                                    }).catchError((e) {
+                                      Fluttertoast.showToast(
+                                          msg: 'Error al agendar cita.');
+                                      setState(() {
+                                        enabled = true;
+                                      });
+                                    });
+                                  }
                                 });
                               }
                             : null,

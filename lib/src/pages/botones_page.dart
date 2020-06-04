@@ -100,7 +100,7 @@ class _BotonesPageState extends State<BotonesPage> {
                 )
               : _selectedIndex == 1
                   ? new MyCalendar(user: myUser,)
-                  : new Text('mi historial'),
+                  : new Text('Historia medica no ha sido habilitada'),
         ),
         bottomNavigationBar: _bottomNavigationBar(context),
         floatingActionButton: new FloatingActionButton(

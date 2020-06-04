@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:list_tile_more_customizable/list_tile_more_customizable.dart';
 import 'package:medigestion/src/blocs/provider.dart';
 import 'package:medigestion/src/blocs/user_bloc.dart';
@@ -35,7 +36,8 @@ class _CalendarPageState extends State<CalendarPage> {
   String namae = '';
   //dia seleccionado de calendario
   String dia = new DateTime(new DateTime.now().year, new DateTime.now().month,
-      new DateTime.now().day, 12, 12, 12, 12, 12).toString();
+          new DateTime.now().day, 12, 12, 12, 12, 12)
+      .toString();
   //keys de tiles en horario
   List<GlobalKey> keys = [
     new GlobalKey(),
@@ -121,7 +123,8 @@ class _CalendarPageState extends State<CalendarPage> {
                 onDaySelected: (DateTime day, List events) {
                   setState(() {
                     dia = new DateTime(
-                        day.year, day.month, day.day, 12, 12, 12, 12, 12).toString();
+                            day.year, day.month, day.day, 12, 12, 12, 12, 12)
+                        .toString();
                   });
                   getAllCitas(dia);
                   print(new DateTime(day.year, day.month, day.day));
@@ -235,16 +238,32 @@ class _CalendarPageState extends State<CalendarPage> {
                             ),
                             onPressed: () {
                               print('${horario[index]}');
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CitaForm(
-                                            horario: int.parse(horario[index]),
-                                            medico: medicoSelected,
-                                            dia: dia,
-                                          ))).then((value) {
-                                getAllCitas(dia);
+                              Firestore.instance
+                                  .collection('citas')
+                                  .where('dia', isEqualTo: dia)
+                                  .where('hora', isEqualTo: horario[index])
+                                  .getDocuments()
+                                  .then((value) {
+                                if (value.documents.length != 0) {
+                                  Fluttertoast.showToast(
+                                      msg: 'Fecha no disponible actualizando..');
+                                  getAllCitas(dia);
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CitaForm(
+                                                horario:
+                                                    int.parse(horario[index]),
+                                                medico: medicoSelected,
+                                                dia: dia,
+                                              ))).then((value) {
+                                    getAllCitas(dia);
+                                  });
+                                }
                               });
+                              /** 
+                              */
                             })
                         : null,
                     title: aux

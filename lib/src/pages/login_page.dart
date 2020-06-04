@@ -29,8 +29,8 @@ class LoginPage extends StatelessWidget {
       width: double.infinity,
       decoration: new BoxDecoration(
           gradient: new LinearGradient(colors: <Color>[
-        Color.fromRGBO(63, 63, 156, 1.0),
-        Color.fromRGBO(90, 70, 178, 1.0),
+        Color.fromRGBO(52, 54, 101, 1.0),
+        Color.fromRGBO(35, 37, 57, 1.0),
       ])),
     );
     final circulo = new Container(
@@ -41,20 +41,16 @@ class LoginPage extends StatelessWidget {
           color: Color.fromRGBO(255, 255, 255, 0.05)),
     );
     final iconoYnombre = new Container(
-      padding: EdgeInsets.only(top: 80.0),
+      padding: EdgeInsets.only(top: 20.0),
       child: new Column(
         children: <Widget>[
-          new Icon(
-            Icons.local_hospital,
-            color: Colors.white,
-            size: 100.0,
-          ),
+         new Image.asset("assets/img/logo.png",width: 300,),
           new SizedBox(
-            height: 10.0,
+            //height: 10.0,
             width: double.infinity,
           ),
           new Text(
-            'Hola Mundo',
+            'Hi Doctor',
             style: new TextStyle(color: Colors.white, fontSize: 25.0),
           )
         ],
@@ -203,7 +199,7 @@ class LoginPage extends StatelessWidget {
             shape: new RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
             elevation: 0.0,
-            color: Colors.deepPurple,
+            color:Color.fromRGBO(52, 54, 101, 1.0),
             textColor: Colors.white,
             onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
           );

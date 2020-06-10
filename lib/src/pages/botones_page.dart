@@ -11,6 +11,7 @@ import 'package:medigestion/src/pages/calendar_page.dart';
 import 'package:medigestion/src/pages/chat_page.dart';
 import 'package:medigestion/src/pages/doctorChatList_page.dart';
 import 'package:medigestion/src/pages/generalLayout.dart';
+import 'package:medigestion/src/pages/historia_clinica_page.dart';
 import 'package:medigestion/src/pages/myCalendar_page.dart';
 import 'package:medigestion/src/pages/profileDoctor_page.dart';
 import 'package:medigestion/src/pages/profileUser_page.dart';
@@ -100,7 +101,7 @@ class _BotonesPageState extends State<BotonesPage> {
                 )
               : _selectedIndex == 1
                   ? new MyCalendar(user: myUser,)
-                  : new Text('Historia medica no ha sido habilitada'),
+                  : new HistoriaClinicaPage(),
         ),
         bottomNavigationBar: _bottomNavigationBar(context),
         floatingActionButton: new FloatingActionButton(

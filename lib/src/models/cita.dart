@@ -9,6 +9,7 @@ class Cita {
   String medicofullName;
   String medicoEspecialidad;
   String dia;
+  String finalizada;
 
   Cita(
       String pacienteUid,
@@ -18,7 +19,8 @@ class Cita {
       String medicoUid,
       String medicofullName,
       String medicoEspecialidad,
-      String dia) {
+      String dia,
+      String finalizada) {
     this.pacienteUid = pacienteUid;
     this.pacientefullName = pacientefullName;
     this.correoPaciente = correoPaciente;
@@ -27,6 +29,7 @@ class Cita {
     this.medicofullName = medicofullName;
     this.medicoEspecialidad = medicoEspecialidad;
     this.dia = dia;
+    this.finalizada = finalizada;
   }
 
   Cita.fromJson(Map<String, dynamic> json)
@@ -37,5 +40,6 @@ class Cita {
         medicoUid = json['medicoUid'],
         medicofullName = json['medicofullName'],
         medicoEspecialidad = json['medicoEspecialidad'],
-        dia = json['dia'];
+        dia = json['dia'],
+        finalizada = json['finalizada'];
 }

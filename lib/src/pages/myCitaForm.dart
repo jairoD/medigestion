@@ -97,38 +97,47 @@ class _MyCitaFormState extends State<MyCitaForm> {
                           fontWeight: FontWeight.bold)),
                   new Padding(padding: EdgeInsets.all(10)),
                   new Center(
-                    child: new FlatButton(
-                        color: Theme.of(context).primaryColor,
-                        onPressed: enabled == true
-                            ? () {
-                                setState(() {
-                                  enabled = false;
-                                });
-                                Firestore.instance
-                                    .collection('citas')
-                                    .document(widget.info.documentID)
-                                    .delete()
-                                    .then((value) {
-                                  setState(() {
-                                    enabled = true;
-                                  });
-                                  Fluttertoast.showToast(msg: 'Cita cancelada');
-                                  Navigator.pop(context);
-                                }).catchError((e) {
-                                  Fluttertoast.showToast(
-                                      msg: 'Error al cancelar cita.');
-                                  setState(() {
-                                    enabled = true;
-                                  });
-                                });
-                              }
-                            : null,
-                        child: enabled == true
-                            ? new Text(
-                                'Cancelar Cita',
-                                style: new TextStyle(color: Colors.white),
-                              )
-                            : CircularProgressIndicator()),
+                    child: widget.info['completada'] == 'si'
+                        ? new FlatButton(
+                            color: Colors.grey,
+                            onPressed: () {},
+                            child: new Text(
+                              'Cita Finalizada',
+                              style: new TextStyle(color: Colors.white),
+                            ))
+                        : new FlatButton(
+                            color: Theme.of(context).primaryColor,
+                            onPressed: enabled == true
+                                ? () {
+                                    setState(() {
+                                      enabled = false;
+                                    });
+                                    Firestore.instance
+                                        .collection('citas')
+                                        .document(widget.info.documentID)
+                                        .delete()
+                                        .then((value) {
+                                      setState(() {
+                                        enabled = true;
+                                      });
+                                      Fluttertoast.showToast(
+                                          msg: 'Cita cancelada');
+                                      Navigator.pop(context);
+                                    }).catchError((e) {
+                                      Fluttertoast.showToast(
+                                          msg: 'Error al cancelar cita.');
+                                      setState(() {
+                                        enabled = true;
+                                      });
+                                    });
+                                  }
+                                : null,
+                            child: enabled == true
+                                ? new Text(
+                                    'Cancelar Cita',
+                                    style: new TextStyle(color: Colors.white),
+                                  )
+                                : CircularProgressIndicator()),
                   )
                 ],
               ),

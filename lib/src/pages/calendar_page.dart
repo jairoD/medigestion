@@ -212,24 +212,44 @@ class _CalendarPageState extends State<CalendarPage> {
                   ListTile(
                     enabled: true,
                     leading: int.parse(horario[index]) < 10
-                        ? new Text(
-                            '0${horario[index]}:00 a. m.',
-                            style: new TextStyle(
-                                color: aux
-                                    ? Colors.grey
-                                    : Theme.of(context).primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          )
-                        : new Text(
-                            '${horario[index]}:00 a. m.',
-                            style: new TextStyle(
-                                color: aux
-                                    ? Colors.grey
-                                    : Theme.of(context).primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
+                        ? int.parse(horario[index]) < 12
+                            ? new Text(
+                                '0${horario[index]}:00 a. m.',
+                                style: new TextStyle(
+                                    color: aux
+                                        ? Colors.grey
+                                        : Theme.of(context).primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : new Text(
+                                '0${horario[index]}:00 p. m.',
+                                style: new TextStyle(
+                                    color: aux
+                                        ? Colors.grey
+                                        : Theme.of(context).primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              )
+                        : int.parse(horario[index]) < 12
+                            ? new Text(
+                                '${horario[index]}:00 a. m.',
+                                style: new TextStyle(
+                                    color: aux
+                                        ? Colors.grey
+                                        : Theme.of(context).primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : new Text(
+                                '${horario[index]}:00 p. m.',
+                                style: new TextStyle(
+                                    color: aux
+                                        ? Colors.grey
+                                        : Theme.of(context).primaryColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
                     trailing: !aux
                         ? new IconButton(
                             icon: new Icon(
@@ -246,7 +266,8 @@ class _CalendarPageState extends State<CalendarPage> {
                                   .then((value) {
                                 if (value.documents.length != 0) {
                                   Fluttertoast.showToast(
-                                      msg: 'Fecha no disponible actualizando..');
+                                      msg:
+                                          'Fecha no disponible actualizando..');
                                   getAllCitas(dia);
                                 } else {
                                   Navigator.push(

@@ -41,7 +41,11 @@ dependencies:
   color: ^2.1.1
   flutter_cupertino_date_picker: ^1.0.23+1
   list_tile_more_customizable: ^1.2.2
-
+  pdf: ^1.8.1
+  path_provider: ^1.6.10
+  flutter_full_pdf_viewer: ^1.0.6 
+  animate_do: ^1.7.2
+  intl:
 dev_dependencies:
   flutter_test:
     sdk: flutter

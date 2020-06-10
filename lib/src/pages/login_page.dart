@@ -151,7 +151,8 @@ class LoginPage extends StatelessWidget {
               decoration: new InputDecoration(
                   icon: new Icon(
                     Icons.alternate_email,
-                    color: Colors.deepPurple,
+                    color:Color.fromRGBO(52, 54, 101, 1.0),
+
                   ),
                   hintText: 'ejemplo@correo.com',
                   labelText: 'Correo electronico',
@@ -176,7 +177,8 @@ class LoginPage extends StatelessWidget {
               decoration: new InputDecoration(
                   icon: new Icon(
                     Icons.lock_outline,
-                    color: Colors.deepPurple,
+                    color:Color.fromRGBO(52, 54, 101, 1.0),
+
                   ),
                   labelText: 'Contraseña',
                   counterText: snapshot.data,

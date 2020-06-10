@@ -133,7 +133,8 @@ class _CitaFormState extends State<CitaForm> {
                                           '${widget.medico['name']} ${widget.medico['lastName']}',
                                       'medicoEspecialidad':
                                           '${widget.medico['about']}',
-                                      'dia': widget.dia
+                                      'dia': widget.dia,
+                                      'completada' : 'no'
                                     }).then((value) {
                                       setState(() {
                                         enabled = true;

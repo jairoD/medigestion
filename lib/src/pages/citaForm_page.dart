@@ -110,6 +110,7 @@ class _CitaFormState extends State<CitaForm> {
                                 Firestore.instance
                                     .collection('citas')
                                     .where('dia', isEqualTo: widget.dia)
+                                    .where('medicoUID', isEqualTo: widget.medico['uid'])
                                     .where('hora',
                                         isEqualTo: widget.horario.toString())
                                     .getDocuments()

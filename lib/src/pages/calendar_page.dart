@@ -258,9 +258,11 @@ class _CalendarPageState extends State<CalendarPage> {
                             ),
                             onPressed: () {
                               print('${horario[index]}');
+                              print(medicoSelected);
                               Firestore.instance
                                   .collection('citas')
                                   .where('dia', isEqualTo: dia)
+                                  .where('medicoUID', isEqualTo: medicoUid)
                                   .where('hora', isEqualTo: horario[index])
                                   .getDocuments()
                                   .then((value) {
